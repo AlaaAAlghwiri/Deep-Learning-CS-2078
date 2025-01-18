@@ -122,4 +122,10 @@ Given that: $\mathbb{E}[f(x)]$ = $\sum\Pr(X = x) f(x)$, then:
 
 $\frac{\partial{\mathbb{E}[f(x)]}}{\partial{x}}$ = $\frac{\partial}{\partial{x}}\sum \Pr(X=x) f(x)$, note that $\Pr(X=x)$ is constant with respect to x.
 
-$\frac{\partial{\mathbb{E}[f(x)]}}{\partial{x}}$ = $\sum\Pr(X=x) \frac{\partial}{\partial{x}} f(x)$
+$\frac{\partial{\mathbb{E}[f(x)]}}{\partial{x}}$ = $\sum\Pr(X=x) \frac{\partial}{\partial{x}} f(x)$.  
+
+Question (2): Linear Algebra
+
+![Performance comparison]("/Users/alghwiri/Library/CloudStorage/OneDrive-UniversityofPittsburgh/Drive Back-up/Acadmics/HDS masters/Taken Courses/Deep learning/linear_algebra.png")
+
+

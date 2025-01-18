@@ -36,8 +36,8 @@ def mat_mat_mul(A, B):
             for j in range(Bcols):
                 total = 0
                 for ii in range(Acols):
-                    total += x[i][ii] * y[ii][j]
-                    z[i][j] = total
+                    total += A[i][ii] * B[ii][j]
+                    C[i][j] = total
      # TODO replace with correct implementation
     return C
 
@@ -73,26 +73,26 @@ def linear_algebra_timings():
         
         # mat-vec multiplication
         start = timeit.default_timer()
-        assert(False) # TODO replace with your code for matrix-vector multiplication of A and x here
+        mat_vec_mul(A, x) # TODO replace with your code for matrix-vector multiplication of A and x here
         mat_vec_times_fl.append(timeit.default_timer() - start)
         start = timeit.default_timer()
-        assert(False) # TODO replace with numpy code for matrix-vector multiplication of A and x here
+        np.multiply(A, x) # TODO replace with numpy code for matrix-vector multiplication of A and x here
         mat_vec_times_np.append(timeit.default_timer() - start)
 
         # mat-mat multiplication
         start = timeit.default_timer()
-        assert(False) # TODO replace with your code for matrix-matrix multiplication of A and B here
+        mat_mat_mul(A, B) # TODO replace with your code for matrix-matrix multiplication of A and B here
         mat_mat_times_fl.append(timeit.default_timer() - start)
         start = timeit.default_timer()
-        assert(False) # TODO replace with numpy code for matrix-matrix multiplication of A and B here
+        np.multiply(A,B) # TODO replace with numpy code for matrix-matrix multiplication of A and B here
         mat_mat_times_np.append(timeit.default_timer() - start)
 
         # dot product
         start = timeit.default_timer()
-        assert(False) # TODO replace with your code for dot product of x and y here
+        dot_product(x, y) # TODO replace with your code for dot product of x and y here
         dot_times_fl.append(timeit.default_timer() - start)
         start = timeit.default_timer()
-        assert(False) # TODO replace with numpy code for dot product of x and y 
+        np.dot(x,y) # TODO replace with numpy code for dot product of x and y 
         dot_times_np.append(timeit.default_timer() - start)
 
     return n_values, (mat_vec_times_fl, mat_mat_times_fl, dot_times_fl), (mat_vec_times_np, mat_mat_times_np, dot_times_np)
