@@ -54,3 +54,13 @@ $\frac{\partial{\|x\|_1}}{\partial{x}}$ = $[sign(x_1), sign(x_2),...,sign(x_n)]^
 $\|x\|\infty$ = $max|X_i|$, This entails many cases under the hood and can be represented using the sign function:
 
 $\frac{\partial{\|x\|\infty}}{\partial{x_i}}$ = $sign(x_i)$ Accordingly, $\frac{\partial{\|x\|\infty}}{\partial{x_i}}$ = $[0,..., sign(x_i),...,0]^T$. Those components that are not achieving the maximum, the derivative is 0.
+
+### Question (1_5): In this part, I will need to get the derivative of f(x) =$e^{\frac{-1}{2}\|x_i\|_2^2}$.
+
+For this function, the chain rule will be used assuming a new function h(z) = $e^{z}$, where z = ${\frac{-1}{2}\|x_i\|_2^2}$. In this case, we would be looking for:
+
+$\frac{\partial{h(z)}}{\partial{x}}$ = $\frac{\partial{h(z)}}{\partial{z}}$ \* $\frac{\partial{z(x)}}{x}$
+
+$\frac{\partial{h(z)}}{\partial{x}}$ = $e^{z}$ \* $-x_i$
+
+$\frac{\partial{h(z)}}{\partial{x}}$ = $-x_i$ \*$e^{\frac{-1}{2}\|x_i\|_2^2}$ = \[$-x_1e^{\frac{-1}{2}\|x_1\|_2^2}$, $-x_2e^{\frac{-1}{2}\|x_2\|_2^2}$,..., $-x_ne^{\frac{-1}{2}\|x_n\|_2^2}$ \]
