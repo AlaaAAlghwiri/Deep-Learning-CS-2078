@@ -1,0 +1,27 @@
+---
+title: "Home Work 1"
+format: pdf
+editor: visual
+---
+
+## Question (1) Math Review (25 points)
+
+### Question (1_1): $f(x,y,z) = 3x^2 + sin(y)z$, I need to find partial derivatives for each x,y, and z:
+
+Solution:
+
+With respect to x: $\frac{\partial{f(x,y,z)}}{\partial{x}}$ = $6x$, everything else is constant as they don't have x in their representation.
+
+With respect to y: $\frac{\partial{f(x,y,z)}}{\partial{y}}$ = $z\cos(y)$, the first term derivative is zero in this case.
+
+With respect to z: $\frac{\partial{f(x,y,z)}}{\partial{z}}$ = $\sin(y)$, the first term derivative is also zero in this case.
+
+### Question (1_2): In this question, I will need to find the $\nabla f(x,y,z)$:
+
+Using the results from the previous question, $\nabla f(x,y,z)$ = \[$6x$, $z\cos(y)$, $\sin(y)$\]
+
+### Question (1_3): Here we are replicating 1 and 2 but $f(x) = 3x_1^2 + \sin(x_2)x3$:
+
+$\nabla f(x_1,x_2,x_3)$ = \[$6x_1$, $x_3\cos(x_2)$, $\sin(x_2)$\]
+
+### Question (1_4_A):In this part, I will need to get the derivative for $||x||_2^2$
