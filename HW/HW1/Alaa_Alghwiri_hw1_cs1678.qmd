@@ -10,60 +10,95 @@ editor: visual
 
 Solution:
 
-With respect to x: $\frac{\partial{f(x,y,z)}}{\partial{x}}$ = $6x$, everything else is constant as they don't have x in their representation.
+With respect to x: $\frac{\partial{f(x,y,z)}}{\partial{x}}$ = $6x$, everything else is constant ($sin(y)z$) as they are not function of x.
 
-With respect to y: $\frac{\partial{f(x,y,z)}}{\partial{y}}$ = $z\cos(y)$, the first term derivative is zero in this case.
+With respect to y: $\frac{\partial{f(x,y,z)}}{\partial{y}}$ = $z\cos(y)$, the first term ($3x^2$) derivative is zero in this case.
 
-With respect to z: $\frac{\partial{f(x,y,z)}}{\partial{z}}$ = $\sin(y)$, the first term derivative is also zero in this case.
+With respect to z: $\frac{\partial{f(x,y,z)}}{\partial{z}}$ = $\sin(y)$, the first term ($3x^2$) derivative is also zero in this case and ($sin(y)$) is treated as constant when deriving for z.
 
 ### Question (1_2): In this question, I will need to find the $\nabla f(x,y,z)$:
 
-Using the results from the previous question, $\nabla f(x,y,z)$ = \[$6x$, $z\cos(y)$, $\sin(y)$\]
+Using the results from the previous question, 
+
+$\nabla f(x,y,z)$= $\begin{bmatrix}
+6x \\
+z\cos(y) \\
+\sin(y)
+\end{bmatrix}$
 
 ### Question (1_3): Here we are replicating 1 and 2 but $f(x) = 3x_1^2 + \sin(x_2)x3$:
 
-$\nabla f(x_1,x_2,x_3)$ = \[$6x_1$, $x_3\cos(x_2)$, $\sin(x_2)$\]
+$\nabla f(x_1,x_2,x_3)$ = $\begin{bmatrix}
+6x_1 \\
+x_3\cos(x_2) \\
+\sin(x_2)
+\end{bmatrix}$
 
-### Question (1_4_A):In this part, I will need to get the derivative for $||x||_2^2$:
+### Question (1_4_A):In this part, I will need to get the derivative for $\|x\|_2^2$:
 
-$||x||_2^2$ = $\sum_{i = 1}^{n}x_i^2$ = $x_1^2 + x_2^2 + ... + x_n^2$
+$\|x\|_2^2$ = $\sum_{i = 1}^{n}x_i^2$ = $x_1^2 + x_2^2 + ... + x_n^2$
 
-In this case: $\frac{\partial{||x||_2^2}}{\partial{x}}$ = $\frac{\partial{x_1^2 + x_2^2 + ... + x_n^2}}{\partial{x_1}}$ + $\frac{\partial{x_1^2 + x_2^2 + ... + x_n^2}}{\partial{x_2}}$ + ... + $\frac{\partial{x_1^2 + x_2^2 + ... + x_n^2}}{\partial{x_n}}$ =\
-= \[ $2x_1$, $2x_2$, $...$, $2x_n$\], This represents the partial derivative for each x.
+In this case: $\frac{\partial{\|x\|_2^2}}{\partial{x}}$ = $\frac{\partial({x_1^2 + x_2^2 + ... + x_n^2})}{\partial{x_1}}$ + $\frac{\partial({x_1^2 + x_2^2 + ... + x_n^2})}{\partial{x_2}}$ + ... + $\frac{\partial({x_1^2 + x_2^2 + ... + x_n^2})}{\partial{x_n}}$ 
 
-### Question (1_4_B):In this part, I will need to get the derivative for $||x||_2$:
+$\frac{\partial{\|x\|_2^2}}{\partial{x}}$ = $\begin{bmatrix}
+2x_1 \\
+2x_2 \\
+... \\
+2x_n
+\end{bmatrix}
+$. This represents the partial derivative for each x.
 
-$||x||_2$ = $\sqrt(\sum_{i = 1}^{n}x_i^2)$ = $\sqrt (x_1^2) + \sqrt(x_2^2) + ... + \sqrt(x_n^2)$
 
-To get this derivative, $\frac{\partial{||x||_2}}{\partial{x}}$, I will be using the chain rule assuming that a new function h(z) = $\sqrt z$, where z(x) = $\sum_{i = 1}^{n}x_i^2$.
+### Question (1_4_B):In this part, I will need to get the derivative for $\|x\|_2$:
+
+$\|x\|_2$ = $\sqrt(\sum_{i = 1}^{n}x_i^2)$ = $\sqrt (x_1^2) + \sqrt(x_2^2) + ... + \sqrt(x_n^2)$
+
+To get this derivative, $\frac{\partial{\|x\|_2}}{\partial{x}}$, I will be using the chain rule assuming that a new function h(z) = $\sqrt z$, where z(x) = $\sum_{i = 1}^{n}x_i^2$.
 
 $\frac{\partial{h(z)}}{\partial{x}}$ = $\frac{\partial{h(z)}}{\partial{z}}$ \* $\frac{\partial{z(x)}}{\partial{x}}$
 
-$\frac{\partial{h(z)}}{\partial{x}}$ = $\frac{1}{2\sqrt(\sum_{i = 1}^{n}x_i^2)}$ \* $\sum_{i=1}^{n}2x_i$ $\frac{\partial{h(z)}}{\partial{x}}$ = $\frac{x}{||x||_2}$
+$\frac{\partial{h(z)}}{\partial{x}}$ = $\frac{1}{2\sqrt(\sum_{i = 1}^{n}x_i^2)}$ \* $\sum_{i=1}^{n}2x_i$ 
+
+$\frac{\partial{h(z)}}{\partial{x}}$ = $\frac{x}{\|x\|_2}$
 
 ### Question (1_4_C):In this part, I will need to get the derivative for $\|x\|_1$:
 
 $\|x\|_1$ = $\sum_{i = 1}^{n}|x_i|$ = $|x_1| + |x_2| + ... + |x_n|$
 
-$\frac{\partial{\|x\|_1}}{\partial{x}}$: depends on the value of $X_i$. If positive, it would be 1, if negative, it would be -1, and undefined when x equals zero. To represent the derivative of this function, the sign function can be used in this case:
+$\frac{\partial{\|x\|_1}}{\partial{x}}$: depends on the value of $x_i$. If $x_i$ positive, it would be 1, if negative, it would be -1, and undefined when $x_i$ equals zero. To represent the derivative of this function, the sign function can be used in this case:
 
-$\frac{\partial{\|x\|_1}}{\partial{x}}$ = $[sign(x_1), sign(x_2),...,sign(x_n)]^T$
+$\mathrm{sgn}(x)$
+
+$\frac{\partial{\|x\|_1}}{\partial{x}}$ = $\begin{bmatrix}
+\mathrm{sgn}(x_1) \\
+\mathrm{sgn}(x_2) \\
+... \\
+\mathrm{sgn}(x_n)
+\end{bmatrix}
+$
 
 ### Question (1_4_D):In this part, I will need to get the derivative for $\|x\|\infty$:
 
 $\|x\|\infty$ = $max|X_i|$, This entails many cases under the hood and can be represented using the sign function:
 
-$\frac{\partial{\|x\|\infty}}{\partial{x_i}}$ = $sign(x_i)$ Accordingly, $\frac{\partial{\|x\|\infty}}{\partial{x_i}}$ = $[0,..., sign(x_i),...,0]^T$. Those components that are not achieving the maximum, the derivative is 0.
+$\frac{\partial{\|x\|\infty}}{\partial{x_i}}$ = $\mathrm{sgn}(x_i)$ Accordingly, $\frac{\partial{\|x\|\infty}}{\partial{x_i}}$ = $[0,..., \mathrm{sgn}(x_i),...,0]^T$. Those components that are not achieving the maximum, the derivative is 0.
 
-### Question (1_5): In this part, I will need to get the derivative of f(x) =$e^{\frac{-1}{2}\|x_i\|_2^2}$.
+### Question (1_5): In this part, I will need to get the derivative of f(x) =$e^{\frac{-1}{2}\|x\|_2^2}$.
 
-For this function, the chain rule will be used assuming a new function h(z) = $e^{z}$, where z = ${\frac{-1}{2}\|x_i\|_2^2}$. In this case, we would be looking for:
+For this function, the chain rule will be used assuming a new function h(z) = $e^{z}$, where z = ${\frac{-1}{2}\|x\|_2^2}$. In this case, we would be looking for:
 
 $\frac{\partial{h(z)}}{\partial{x}}$ = $\frac{\partial{h(z)}}{\partial{z}}$ \* $\frac{\partial{z(x)}}{x}$
 
 $\frac{\partial{h(z)}}{\partial{x}}$ = $e^{z}$ \* $-x_i$
 
 $\frac{\partial{h(z)}}{\partial{x}}$ = $-x_i$ \*$e^{\frac{-1}{2}\|x_i\|_2^2}$ = \[$-x_1e^{\frac{-1}{2}\|x_1\|_2^2}$, $-x_2e^{\frac{-1}{2}\|x_2\|_2^2}$,..., $-x_ne^{\frac{-1}{2}\|x_n\|_2^2}$ \]
+
+$\begin{bmatrix}
+-x_1e^{\frac{-1}{2}\|x_1\|_2^2} \\
+-x_2e^{\frac{-1}{2}\|x_2\|_2^2} \\
+... \\
+-x_ne^{\frac{-1}{2}\|x_n\|_2^2}
+\end{bmatrix}$
 
 ### Question (1_6): In this part, I will need to get the two components of f(A,x):
 
@@ -76,7 +111,7 @@ And $x_{1x3}$ = $\begin{bmatrix}
   x1 & x2 & x3
 \end{bmatrix}$
 
-f(A,x) = Ax = $\begin{bmatrix}
+f(A,x) = $Ax^T$ = $\begin{bmatrix}
   A1,1 & A1,2 & A1,3 \\
   A2,1 & A2,2 & A2,3 \\
 \end{bmatrix}$ \* $\begin{bmatrix}
@@ -85,7 +120,7 @@ f(A,x) = Ax = $\begin{bmatrix}
   x3
 \end{bmatrix}$
 
-f(A,x) = Ax = $\begin{bmatrix}
+f(A,x) = $Ax^T$ = $\begin{bmatrix}
   A1,1*x1 + A1,2*x2 + A1,3*x3 \\
   A2,1*x1 + A2,2*x2 + A2,3*x3
 \end{bmatrix}$
@@ -124,7 +159,7 @@ $\frac{\partial{\mathbb{E}[f(x)]}}{\partial{x}}$ = $\frac{\partial}{\partial{x}}
 
 $\frac{\partial{\mathbb{E}[f(x)]}}{\partial{x}}$ = $\sum\Pr(X=x) \frac{\partial}{\partial{x}} f(x)$.  
 
-Question (2): Linear Algebra
+### Question (2): Linear Algebra Output
 
 ![Performance comparison]("/Users/alghwiri/Library/CloudStorage/OneDrive-UniversityofPittsburgh/Drive Back-up/Acadmics/HDS masters/Taken Courses/Deep learning/linear_algebra.png")
 
