@@ -1,0 +1,32 @@
+---
+title: "Classification_extra_credit"
+format: pdf
+editor: visual
+---
+
+
+$$ 
+\frac{\partial{f(x,w)}}{\partial{w}}, where f(x,w) = \frac{1}{1 + e^{-w^tx}}
+$$ 
+Using the chain rule and assuming that $z = e^{-w^tx}$ we have:
+
+$$
+h(z) = \frac{1}{1 + e^z} 
+\frac{\partial{h(z)}}{\partial{w}} = \frac{\partial{h(z)}}{\partial{z}} \cdot \frac{\partial{z}}{\partial{w}} 
+$$
+
+$$
+\frac{\partial{h(z)}}{\partial{z}} = -\frac{1}{(1 + e^z)^2} \cdot e^z = -\frac{e^z}{(1 + e^z)^2} 
+$$
+
+$$
+\frac{\partial{z}}{\partial{w}} = -x \cdot e^{-w^tx} 
+$$
+$$
+\frac{\partial{f(x,w)}}{\partial{w}} = -\frac{e^{-w^tx}}{(1 + e^{-w^tx})^2} \cdot (-x) = \frac{xe^{-w^tx}}{(1 + e^{-w^tx})^2}
+$$
+
+Now, the gradient of l(w) that is negative log likelihood is:
+$$
+\nabla l(w) = \frac{1}{m} \sum_{i=1}^{m} \left( \frac{y_i - f(x_i,w)}{f(x_i,w)(1 - f(x_i,w))} \right) x_i
+$$
