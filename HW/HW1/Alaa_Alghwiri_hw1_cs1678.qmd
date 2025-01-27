@@ -18,7 +18,7 @@ With respect to z: $\frac{\partial{f(x,y,z)}}{\partial{z}}$ = $\sin(y)$, the fir
 
 ### Question (1_2): In this question, I will need to find the $\nabla f(x,y,z)$:
 
-Using the results from the previous question, 
+Using the results from the previous question,
 
 $\nabla f(x,y,z)$= $\begin{bmatrix}
 6x \\
@@ -38,16 +38,14 @@ x_3\cos(x_2) \\
 
 $\|x\|_2^2$ = $\sum_{i = 1}^{n}x_i^2$ = $x_1^2 + x_2^2 + ... + x_n^2$
 
-In this case: $\frac{\partial{\|x\|_2^2}}{\partial{x}}$ = $\frac{\partial({x_1^2 + x_2^2 + ... + x_n^2})}{\partial{x_1}}$ + $\frac{\partial({x_1^2 + x_2^2 + ... + x_n^2})}{\partial{x_2}}$ + ... + $\frac{\partial({x_1^2 + x_2^2 + ... + x_n^2})}{\partial{x_n}}$ 
+In this case: $\frac{\partial{\|x\|_2^2}}{\partial{x}}$ = $\frac{\partial({x_1^2 + x_2^2 + ... + x_n^2})}{\partial{x_1}}$ + $\frac{\partial({x_1^2 + x_2^2 + ... + x_n^2})}{\partial{x_2}}$ + ... + $\frac{\partial({x_1^2 + x_2^2 + ... + x_n^2})}{\partial{x_n}}$
 
 $\frac{\partial{\|x\|_2^2}}{\partial{x}}$ = $\begin{bmatrix}
 2x_1 \\
 2x_2 \\
 ... \\
 2x_n
-\end{bmatrix}
-$. This represents the partial derivative for each x.
-
+\end{bmatrix}$. This represents the partial derivative for each x.
 
 ### Question (1_4_B):In this part, I will need to get the derivative for $\|x\|_2$:
 
@@ -57,7 +55,7 @@ To get this derivative, $\frac{\partial{\|x\|_2}}{\partial{x}}$, I will be using
 
 $\frac{\partial{h(z)}}{\partial{x}}$ = $\frac{\partial{h(z)}}{\partial{z}}$ \* $\frac{\partial{z(x)}}{\partial{x}}$
 
-$\frac{\partial{h(z)}}{\partial{x}}$ = $\frac{1}{2\sqrt(\sum_{i = 1}^{n}x_i^2)}$ \* $\sum_{i=1}^{n}2x_i$ 
+$\frac{\partial{h(z)}}{\partial{x}}$ = $\frac{1}{2\sqrt(\sum_{i = 1}^{n}x_i^2)}$ \* $\sum_{i=1}^{n}2x_i$
 
 $\frac{\partial{h(z)}}{\partial{x}}$ = $\frac{x}{\|x\|_2}$
 
@@ -74,8 +72,7 @@ $\frac{\partial{\|x\|_1}}{\partial{x}}$ = $\begin{bmatrix}
 \mathrm{sgn}(x_2) \\
 ... \\
 \mathrm{sgn}(x_n)
-\end{bmatrix}
-$
+\end{bmatrix}$
 
 ### Question (1_4_D):In this part, I will need to get the derivative for $\|x\|\infty$:
 
@@ -157,10 +154,8 @@ Given that: $\mathbb{E}[f(x)]$ = $\sum\Pr(X = x) f(x)$, then:
 
 $\frac{\partial{\mathbb{E}[f(x)]}}{\partial{x}}$ = $\frac{\partial}{\partial{x}}\sum \Pr(X=x) f(x)$, note that $\Pr(X=x)$ is constant with respect to x.
 
-$\frac{\partial{\mathbb{E}[f(x)]}}{\partial{x}}$ = $\sum\Pr(X=x) \frac{\partial}{\partial{x}} f(x)$.  
+$\frac{\partial{\mathbb{E}[f(x)]}}{\partial{x}}$ = $\sum\Pr(X=x) \frac{\partial}{\partial{x}} f(x)$.
 
 ### Question (2): Linear Algebra Output
 
-![Performance comparison]("/Users/alghwiri/Library/CloudStorage/OneDrive-UniversityofPittsburgh/Drive Back-up/Acadmics/HDS masters/Taken Courses/Deep learning/linear_algebra.png")
-
-
+![Performance comparison](%22/Users/alghwiri/Library/CloudStorage/OneDrive-UniversityofPittsburgh/Drive%20Back-up/Acadmics/HDS%20masters/Taken%20Courses/Deep%20learning/linear_algebra.png%22)
