@@ -1,0 +1,42 @@
+---
+title: "CS 1678/2078 Homework 2"
+author: "Alaa Alghwiri"
+format: pdf
+editor: visual
+---
+
+# Written Responses (Part 1)
+
+Given that $f_*(x) = 6x + 4\cos(3x + 2) - x^2 + 10\ln(\frac{|x|}{10} + 1) + 7$, find the following:
+
+## Problem 1
+In this part, I will need to find $\phi(x) = [?]^T$:
+Based on the given function and in order, $\phi(x) = \begin{bmatrix}x & cos(3x + 2) & x^2 & \ln(\frac{|x|}{10} + 1) & 1\end{bmatrix}^T$
+
+## Problem 2
+In this part i will need to find the optimal weights that corresponds to the features in part 1:
+
+$w^* = \begin{bmatrix}6 & 4 & -1 & 10 & 7\end{bmatrix}^T$
+
+## Problem 3
+In this part, i will need to evaluate the same requirements for part 1 and 2 but for the following function: 
+
+$f_*(x) = 6x * 4\cos(3x + 2) * x^2 * 10\ln(\frac{|x|}{10} + 1) * 7$. 
+
+The relationship between features in this case is multiplicative and not additive. Mathematically, i can apply a trick by using the natural log on $f_*(x)$ and this will convert the relationship between features into additive relationship:
+
+$\ln f_*(x) = \ln(6x * 4\cos(3x + 2) * x^2 * 10\ln(\frac{|x|}{10} + 1) * 7)$ 
+
+$\ln f_*(x)$ = $\ln(6x) + \ln(4cos(3x + 2)) + \ln(x^2) + \ln(10\ln(\frac{|x|}{10} + 1)) + ln(7)$
+
+$\ln f_*(x)$ = $\ln(6) + \ln(x) + \ln(4) + \ln(cos(3x + 2)) + \ln(x^2) + \ln(10) + \ln\ln(\frac{|x|}{10} + 1) + \ln(7)$
+
+According to this and in order:
+
+$\phi(x) = \begin{bmatrix} 1 & \ln(x) & 1  & \ln(cos(3x + 2)) & \ln(x^2) & 1 & \ln\ln(\frac{|x|}{10} + 1) & 1\end{bmatrix}^T$
+
+And 
+
+$w^* = \begin{bmatrix} \ln(6) & 1 & \ln(4) & 1 & 1 & \ln(10) & 1 & \ln(7)\end{bmatrix}^T$
+
+
