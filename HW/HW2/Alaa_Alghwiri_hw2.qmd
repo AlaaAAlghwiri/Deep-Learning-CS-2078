@@ -85,3 +85,32 @@ In a matrix representation:
 $\begin{bmatrix}
 X_1 & X_2 & X_3 & .... & X_m
 \end{bmatrix}$
+
+## Problem 6
+
+In this question, i will evaluate the gradient for the loss function with resptect to the weight w. And this should be expressed in matrices/vectors
+
+$\nabla l(w)$ = $\frac{\partial}{\partial{w}} g(f(X,w), y)$
+
+$\frac{\partial}{\partial{w}} g(f(X,w), y)$ = $\frac{\partial{}}{\partial{w}} \frac{1}{2m} (X_iw_i - y_i)^2$
+
+= $\frac{1}{m}(X_iw_i - y_i)x_i$ 
+
+$\nabla l(w)$ = $x^T \nabla g(\hat{y}, y)$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
