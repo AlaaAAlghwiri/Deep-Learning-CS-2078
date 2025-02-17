@@ -27,27 +27,12 @@ In this part, i will need to evaluate the same requirements for part 1 and 2 but
 
 $$f_*(x) = 6x \times 4\cos(3x + 2) \times x^2 \times 10\ln(\frac{|x|}{10} + 1) \times 7$$
 
-The relationship between features in this case is multiplicative and not additive. Mathematically, i can apply a trick by using the natural log on $f_*(x)$ and this will convert the relationship between features into additive relationship:
-
-$$\ln f_*(x) = \ln(6x \times 4\cos(3x + 2) \times x^2 \times 10\ln(\frac{|x|}{10} + 1) \times 7)$$
-
-$\ln f_*(x)$ = $\ln(6x) + \ln(4cos(3x + 2)) + \ln(x^2) + \ln(10\ln(\frac{|x|}{10} + 1)) + ln(7)$
-
-$\ln f_*(x)$ = $\ln(6) + \ln(x) + \ln(4) + \ln(cos(3x + 2)) + \ln(x^2) + \ln(10) + \ln\ln(\frac{|x|}{10} + 1) + \ln(7)$
-
-According to this and in order:
-
-$\phi(x) = \begin{bmatrix} 1 & \ln(x) & 1  & \ln(cos(3x + 2)) & \ln(x^2) & 1 & \ln\ln(\frac{|x|}{10} + 1) & 1\end{bmatrix}^T$
-
-And
-
-$w^* = \begin{bmatrix} \ln(6) & 1 & \ln(4) & 1 & 1 & \ln(10) & 1 & \ln(7)\end{bmatrix}^T$
-
 In this case, I can simplify the multiplication terms as follow: $6 \times 4 \times 7 \times 10 = 1680$, then we get the following:
 
-$$1680 \times x^3 \times \cos(3x + 2) \times\ln(\frac{|x|}{10} + 1)$$ Distribute $168 \times x^3 \times \cos(3x + 2)$ inside the natural log, this will results to: $$
-1680 \times x^3 \times \cos(3x + 2) \times\ln(\frac{|x|}{10} + 1) + 168 \times x^3 \times \cos(3x + 2)
-$$
+$$1680 \times x^3 \times \cos(3x + 2) \times\ln(\frac{|x|}{10} + 1)$$
+
+$$\phi(x) = \begin{bmatrix} x^3 \times \cos(3x + 2) \times\ln(\frac{|x|}{10} + 1) \end{bmatrix}$$ $$w^* = \begin{bmatrix}1689\end{bmatrix}^T$$\
+\
 
 ## Problem 4
 
@@ -95,9 +80,9 @@ $\frac{\partial \hat{y}_i}{\partial w_i} = \sum_{i=1}^{m}X_i$
 
 In a matrix representation:
 
-$\begin{bmatrix}
+$$\begin{bmatrix}
 X_1 & X_2 & X_3 & .... & X_m
-\end{bmatrix}$
+\end{bmatrix}$$
 
 ## Problem 6
 
