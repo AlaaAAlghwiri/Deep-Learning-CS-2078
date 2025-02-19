@@ -86,7 +86,7 @@ X_1 & X_2 & X_3 & .... & X_m
 
 ## Problem 6
 
-In this question, i will evaluate the gradient for the loss function with respect to the weight $w$. And this should be expressed in matrices/vectors without summation.
+In this question, i will evaluate the gradient for the loss function xx with respect to the weight $w$. And this should be expressed in matrices/vectors without summation.
 
 $\nabla l(w)$ = $\frac{\partial}{\partial{w}} g(f(X,w), y)$
 
@@ -97,3 +97,47 @@ $\frac{\partial}{\partial{w}} g(f(X,w), y)$ = $\frac{\partial{}}{\partial{w}} \f
 Using matrix representation:
 
 $$\nabla l(w) = X^T(Xw - y)$$
+
+## Problem 7
+
+First of all, I will evaluate the gradient of the sigmoid function with respect to the weight $w$:
+
+$$
+\frac{\partial f(x,w)}{\partial w} = \frac{\partial}{\partial w} \frac{1}{1 + e^{-w^Tx}}
+$$
+
+Using the chain rule and assuming that $u = 1 + e^{-w^Tx}$.
+
+$$
+\frac{\partial f(x,w)}{\partial w} = \frac{\partial}{\partial u} \frac{1}{u} \times \frac{\partial (1 + e^{-w^Tx})}{\partial w}
+$$
+
+$$
+\frac{\partial f(x,w)}{\partial w} = f(x,w)^2 e^{(-w^Tx)} X
+$$
+
+Now, let's evaluate the gradient of the Negative likelihood loss function with respect to the weight $w$:
+
+$$
+\nabla l(w) = \frac{\partial}{\partial w} -\sum_{i=1}^{m} y_i \log(f(x_i, w)) + (1 - y_i) \log(1 - f(x_i, w))
+$$
+
+$$
+= -\sum_{i=1}^{m} \frac{y_i}{f(x_i, w)} \frac{\partial f(x_i, w)}{\partial w} - \frac{1 - y_i}{1 - f(x_i, w)} \frac{\partial f(x_i, w)}{\partial w}
+$$
+
+$$
+= -\sum_{i=1}^{m} \frac{y_i}{f(x_i, w)} f(x_i, w)^2 e^{(-w^Tx_i)} X_i - \frac{1 - y_i}{1 - f(x_i, w)} f(x_i, w)^2 e^{(-w^Tx_i)} X_i
+$$
+
+$$
+= -\sum_{i=1}^{m} y_i (1 - f(x_i, w)) X_i + (1 - y_i) f(x_i, w) X_i
+$$
+
+$$
+= -\sum_{i=1}^{m} (y_i - f(x_i, w)) X_i
+$$
+
+$$
+= X^T(f(X, w) - y)
+$$
