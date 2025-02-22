@@ -10,7 +10,7 @@ def sgd_update(w, grad, eta):
     :return: updated weights
     """
     # TODO implement the update step of SGD
-    return w
+    return w - eta * grad
 
 def gd(fg, w0, eta=0.01, max_iter=1000, wtol=1e-6):
     """
@@ -170,18 +170,25 @@ def gd_earlystopping(fg, w0, valf, eta=0.01, max_iter=1000,eps=1e-4, continue_af
     min_val = np.inf
     while iter < max_iter:
         # TODO impelment gradient descent with early stopping
-        loss, grad = 0, np.zeros_like(w)  # TODO replace this 
-        w_new = np.copy(w)  # TODO replace this with the weight updated after the gradient step
+        loss, grad = fg(w) # TODO replace this 
+        w_new = sgd_update(w, grad, eta)  # TODO replace this with the weight updated after the gradient step
         losses.append(loss)  # log the loss
         weights.append(np.copy(w))  # log the weights
-        val_loss = 0 # replace this with the validation loss for w_new
+        val_loss = valf(w_new)  # replace this with the validation loss for w_new
         val_losses.append(val_loss)
         
         # TODO implement early stopping
         # code goes here
+        if val_loss < min_val:
+            min_val = val_loss
+            w_stop = np.copy(w_new)
+            iter_stop = iter
+        elif val_loss > min_val + eps:
+            if not continue_after_early_stopping:
+                break
         
         
-        w = np.copy(w_new)
+        w = w_new
         iter += 1
     # TODO make sure w_stop, and iter_stop are set to be the best weights and iteration number based on the validation loss. 
     return w_stop, iter_stop, losses, val_losses, weights
