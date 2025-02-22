@@ -10,7 +10,7 @@ def mse(y, y_hat):
     :param y_hat: np.ndarray of shape (m,) representing the predicted values
     :return: mean squared error
     """
-    return 0 # TODO replace with correct implementation
+    return 0.5 * np.mean((y - y_hat)**2) #
 
 def mse_gradient(y, y_hat):
     """
@@ -19,7 +19,9 @@ def mse_gradient(y, y_hat):
     :param y_hat: np.ndarray of shape (m,) representing the predicted values
     :return: gradient of mean squared error with respect to predictions
     """
-    return 0, np.zeros_like(y_hat)  # TODO replace with correct implementation
+    mse_loss = mse(y, y_hat)
+    grad = (y_hat - y) / y.shape[0] 
+    return mse_loss, grad
 
 def nll(y, y_hat):
     """
@@ -29,7 +31,7 @@ def nll(y, y_hat):
     :return: negative log likelihood
     """
     prob = sigmoid(y_hat)
-    return 0 # TODO replace with correct implementation
+    return -np.mean(y * np.log(prob) + (1 - y) * np.log(1 - prob)) # TODO replace with correct implementation
 
 
 def nll_gradient(y, y_hat):
@@ -40,7 +42,10 @@ def nll_gradient(y, y_hat):
     :return: negative log likelihood, gradient of negative log likelihood with respect to predictions
     """
     prob = sigmoid(y_hat)
-    return 0, np.zeros_like(y_hat)  # TODO replace with correct implementation
+    nll_loss = nll(y, y_hat)
+    grad = (prob - y) / y.shape[0] 
+    return nll_loss, grad
+  
 
 def accuracy(y, y_hat):
     """
@@ -58,7 +63,7 @@ def sigmoid(x):
     :param x: input could be a scalar or a numpy array
     :return: sigmoid of x
     """
-    return 0 # TODO replace with correct implementation
+    return  1/(1 + np.exp(-x)) # TODO replace with correct implementation
 
 class LinearModel(object):
     def __init__(self, num_features):  # TODO read this small code block so you know what the variables are
@@ -87,7 +92,7 @@ class LinearModel(object):
         :return: output data of shape (m,)
         """
         assert len(x.shape) == 2
-        out = 0  # TODO replace with correct implementation
+        out = np.dot(x, self.w) + self.b # TODO replace with correct implementation
         assert out.shape == (x.shape[0],), "Expected shape {}, got shape {}".format((x.shape[0],), out.shape)
         return out
     
@@ -98,8 +103,8 @@ class LinearModel(object):
         :return: output data of shape (m,), gradient of output with respect to weights (w,b)
         """
         assert len(x.shape) == 2
-        gradw = np.zeros((x.shape[0], self.w.shape[0]))  # gradient of output with respect to weights  TODO replace with correct implementation
-        gradb = np.zeros(x.shape[0])  # gradient of output with respect to bias  TODO replace with correct implementation
+        gradw = x  # gradient of output with respect to weights  TODO replace with correct implementation
+        gradb = np.ones(x.shape[0])  # gradient of output with respect to bias  TODO replace with correct implementation
         return self.predict(x), (gradw, gradb)
 
     def regression_loss(self, x, y):
@@ -111,14 +116,14 @@ class LinearModel(object):
         :return: loss, gradient of loss with respect to weights
         """
         # TODO: replace this code with correct implementation
-        loss = 0
-        loss = 0  # should be scalar
-        gw = np.zeros_like(self.params()[0])  #should be (num_features,)
-        gb = np.zeros_like(self.params()[1])  # should be (1,)
+        y_hat = self.predict(x)
+        loss, grad_loss = mse_gradient(y, y_hat)
+        gw = np.mean(grad_loss[:, np.newaxis] * x, axis=0)  #should be (num_features,)
+        gb = np.mean(grad_loss) # should be (1,)  
         assert gw.shape == self.w.shape, "Expected shape {}, got shape {}".format(self.w.shape, gw.shape)
         assert gb.shape == self.b.shape, "Expected shape {}, got shape {}".format(self.b.shape, gb.shape)
         return loss, (gw, gb)
-    
+
     def binary_classification_loss(self, x, y):
         """
         Compute the loss and gradient of the loss with respect to the weights
@@ -127,9 +132,11 @@ class LinearModel(object):
         :param y: output data
         :return: loss, gradient of loss with respect to weights
         """
-        loss = 0  # should be scalar
-        gw = np.zeros_like(self.params()[0])  #should be (num_features,)
-        gb = np.zeros_like(self.params()[1])  # should be (1,)
+
+        y_hat = self.predict(x)
+        loss, grad_loss = nll_gradient(y, y_hat) # should be scalar
+        gw = np.mean(grad_loss[:, np.newaxis] * x, axis=0) #should be (num_features,)
+        gb = np.mean(grad_loss)  # should be (1,)
         assert gw.shape == self.w.shape, "Expected shape {}, got shape {}".format(self.w.shape, gw.shape)
         assert gb.shape == self.b.shape, "Expected shape {}, got shape {}".format(self.b.shape, gb.shape)
         return loss, (gw, gb)
@@ -163,7 +170,7 @@ class FourierBasis(object):
         """
         self.num_inputs = num_inputs
         self.order = order
-        self.ranges = ranges
+        self.ranges = np.array(ranges)
         self.C = make_C_matrix(num_inputs, order)
     
     def predict(self, x):
@@ -174,9 +181,10 @@ class FourierBasis(object):
         """
         assert len(x.shape) == 2, "Expected shape (m, {}), got shape {}".format(self.num_inputs, x.shape)
         assert x.shape[1] == self.num_inputs, "Expected shape (m, {}), got shape {}".format(self.num_inputs, x.shape)
-        xnormed = np.zeros_like(x) # TODO: normalize the data to be between 0 and 1 based on the ranges of each feature
-        sin_feats = np.zeros(self.C.shape[0])  # TODO: compute the sin features using xnormed
-        cos_feats = np.zeros(self.C.shape[0])  # TODO: compute the cos features using xnormed
+        xnormed = (x - self.ranges[:, 0]) / (self.ranges[:, 1] - self.ranges[:, 0]) # TODO: normalize the data to be between 0 and 1 based on the ranges of each feature
+        argument = np.dot(xnormed, self.C.T) * np.pi
+        sin_feats = np.sin(argument)  # TODO: compute the sin features using xnormed
+        cos_feats = np.cos(argument)  # TODO: compute the cos features using xnormed
         feats = np.concatenate((sin_feats, cos_feats), axis=1)  # Combine the features into a single array
         assert feats.shape == (x.shape[0], 2 * self.C.shape[0])
         return feats
@@ -220,7 +228,6 @@ class LinearWithBasis(object):
         """
         features = self.basis.predict(x)  # TODO: see this is just a simple composition of the basis fuction and linear model
         return self.linear_model.predict(features)
-    
     
     def predict_with_gradient(self, x):
         """
