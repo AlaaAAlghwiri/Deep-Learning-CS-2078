@@ -74,13 +74,13 @@ def q1():
     x, y = generate_regression_data(n=400)
     plot_regression_data(x, y)  # uncomment to plot just the data
     
-    w,b = (0,0)  # TODO replace this line with one to compute the least squares solution
+    w,b = least_squares_solution(x, y)  # TODO replace this line with one to compute the least squares solution
     model1 = LinearModel(1)
     model1.set_params((w, b))  # create a linear model with the estimated weights
     
     # TODO: Note that the hyperparameters I specified are not good values. You will need to try different values to get the desired fit.
     ranges = np.array([[-2, 2]])    # specify the range of the input data
-    order = 0                       # TODO: specify the order for the basis function function
+    order = 3                     # TODO: specify the order for the basis function function
     num_inputs = 1                  # specify the number of input features
     basis = FourierBasis(num_inputs, order, ranges=ranges)  # create a radial basis function basis
     model2 = LinearWithBasis(basis)  # create a linear model with the fourier basis
@@ -88,10 +88,10 @@ def q1():
     fg = lambda params: fg_regression(params, model2, (x, y))  # TODO: understand this function. This is a function that returns the loss and gradient for the specified parameters
     
     # perform gradient descent to find the optimal weights
-    eta = 0.0  # TODO: specify the step size. 
+    eta = 0.01  # TODO: specify the step size. 
     w0 = np.concatenate(model2.params())  # specify the initial weights
-    max_iters = 10  # TODO specify the maximum number of iterations
-    wtol = 0 # TODO specify the tolerance for the stopping criterion
+    max_iters = 1000  # TODO specify the maximum number of iterations
+    wtol = 1e-6 # TODO specify the tolerance for the stopping criterion
     beta, iter, losses, weights = gd(fg, w0, eta=eta, max_iter=max_iters, wtol=wtol)
 
     model2.set_params((beta[:-1], beta[-1]))
@@ -110,8 +110,8 @@ def q1():
 # plot the parameters of the weights over time to see them bounce around the optimum. 
 # use multiple step sizes to see how the step size affects the convergence.
 def q2():
-    etas = [0.0, 0.0, 0.0]  # TODO replace this with a list of step sizes to try. They NEED to be in decreasing order for the plot to show up correctly. 
-    max_iter = 10 # TODO find a value big enough to see the full convergence. SGD is fast so this can be BIG
+    etas = [0.1, 0.01, 0.001]  # TODO replace this with a list of step sizes to try. They NEED to be in decreasing order for the plot to show up correctly. 
+    max_iter = 10000 # TODO find a value big enough to see the full convergence. SGD is fast so this can be BIG
     n = 100  # number of samples from each class. Don't change this for the plot you turn in, but you can change it for your own interests. 
     d = 2  # number of dimensions for the data. Don't change this or the code won't work. 
     X, y = data_generator(n, d, shift = 0.5)  # Generate the data
@@ -242,9 +242,9 @@ def q3():
     np.random.seed(0)
     fig, axs = plt.subplots(3,1, sharex=False, sharey=False, figsize=(6, 6))
     n1 = 2
-    eta1 = 0.0  # this is a scaling factor for the step size for SGD. We will compute the step size for gradient descent as (1 / (num_features/2 +1) then scale that step size by this value for SGD. SGD_step_size = eta * step_size_for_gd
-    max_iters1 = 2
-    order1 = 1
+    eta1 = 0.01  # this is a scaling factor for the step size for SGD. We will compute the step size for gradient descent as (1 / (num_features/2 +1) then scale that step size by this value for SGD. SGD_step_size = eta * step_size_for_gd
+    max_iters1 = 100000
+    order1 = 3
     
     gd_1, sgd_1, ls_1 = average_opt_times(n=n1, order=order1, eta=eta1, max_iters=max_iters1, num_trials=10)
     axs[0].plot(gd_1[0], gd_1[1], label='GD')
@@ -253,9 +253,9 @@ def q3():
     axs[0].legend()
 
     n2 = 2
-    eta2 = 0.0
-    max_iters2 = 2
-    order2 = 1
+    eta2 = 0.001
+    max_iters2 = 50000
+    order2 = 5
 
     gd_2, sgd_2, ls_2 = average_opt_times(n=n2, order=order2, eta=eta2, max_iters=max_iters2, num_trials=10)
     axs[1].plot(gd_2[0], gd_2[1], label='GD')
@@ -263,9 +263,9 @@ def q3():
     axs[1].scatter([ls_2[0]], [ls_2[1]], color='black', label='LS')
 
     n3 = 2
-    eta3 = 0.0
-    max_iters3 = 2
-    order3 = 1
+    eta3 = 0.0001
+    max_iters3 = 20000
+    order3 = 7
 
     gd_3, sgd_3, ls_3 = average_opt_times(n=n3, order=order3, eta=eta3, max_iters=max_iters3, num_trials=10)
     axs[2].plot(gd_3[0], gd_3[1], label='GD')
@@ -313,7 +313,7 @@ class MyBasis(object):
     def __init__(self, num_features):
         # TODO: implement whatever initialization you need
         # The function is: np.sin(2 * np.pi * x) + 0.5 * x**2 - x - 1 + noise, see regression_function
-        pass
+        self.num_features = num_features
 
     def predict(self, x):
         """
@@ -323,7 +323,7 @@ class MyBasis(object):
         """
         assert len(x.shape) == 2
         assert x.shape[1] == 1
-        feats = np.ones(1)  # TODO replace this with your implementation of the basis function
+        feats = np.hstack([x, x**2, np.sin(2 * np.pi * x)]) # TODO replace this with your implementation of the basis function
         assert feats.shape == (x.shape[0], self.num_outputs())
         return feats
     
@@ -332,7 +332,7 @@ class MyBasis(object):
         Return the number of basis functions
         :return: number of basis functions
         """
-        return 1  # TODO replace with the number of features created by your basis function
+        return 3  # TODO replace with the number of features created by your basis function
 
 # compare using gradient descent with the basis function you created to using the fourier basis
 def q4():
@@ -342,7 +342,7 @@ def q4():
     fbf_errors = []
     mybasis_errors = []
     x0 = np.linspace(-2,2, num=10_000).reshape(-1, 1)
-    fx = regression_function(x0) # generate ground truth data points on the f(x) we want to model
+    fx = regression_function(x0).reshape(-1) # generate ground truth data points on the f(x) we want to model
     
     ns = [5, 10, 100, 400]  # test at different sample sizes
     for n in ns:
@@ -350,7 +350,7 @@ def q4():
         # plot_regression_data(x, y)  # uncomment to plot just the data
         x = x.reshape(-1, 1)
         ranges = np.array([[-2, 2]])       
-        order = 1  # TODO specify the order for the basis function function
+        order = 3  # TODO specify the order for the basis function function
         num_inputs = 1                
         basis1 = FourierBasis(num_inputs, order, ranges=ranges)  # create a radial basis function basis
         model1 = LinearWithBasis(basis1)  # create a linear model with the fourier basis
@@ -360,8 +360,8 @@ def q4():
 
         fg1 = lambda params: fg_regression(params, model1, (x, y))  
 
-        max_iters = 100   # TODO you might need to update this value
-        wtol = 1e-4  # TODO you might need to update this value 
+        max_iters = 10000   # TODO you might need to update this value
+        wtol = 1e-6  # TODO you might need to update this value 
 
         # perform gradient descent to find the optimal weights
         eta = compute_optimal_eta(x, model1)
