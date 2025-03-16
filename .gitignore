@@ -4,3 +4,6 @@ HW1.Rproj
 HW_PreReq/
 .Rhistory
 Deep learning.Rproj
+*.npy
+HW/HW4/CS1678_2078_HWMLP.zip
+HW/HW4/code/__pycache__/nn.cpython-312.pyc
