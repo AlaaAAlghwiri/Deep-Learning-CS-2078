@@ -93,16 +93,16 @@ class Adam(object):
             if key not in self.m:
                 self.m[key] = np.zeros_like(params[key])  # initialize parameters for the moving average of the gradient
                 self.v[key] = np.zeros_like(params[key])  # initialize parameters for the moving average of the squared gradient
-            # self.m[key] = self.beta1 * self.m[key] + (1 - self.beta1) * grads[key]
-            # self.v[key] = self.beta2 * self.v[key] + (1 - self.beta2) * grads[key] ** 2
-            # m_hat = self.m[key] / (1 - self.beta1 ** self.t)
-            # v_hat = self.v[key] / (1 - self.beta2 ** self.t)
-            # params[key] -= self.eta * m_hat / (np.sqrt(v_hat) + self.eps)
-            self.m[key] = self.m[key]  # TODO replace with code to update the moving average of the gradient
-            self.v[key] = self.v[key]  # TODO replace with code to update the moving average of the squared gradient
-            m_hat = self.m[key]  # TODO replace with code to compute the bias-corrected first moment estimate
-            v_hat = self.v[key]  # TODO replace with code to compute the bias-corrected second moment estimate
-            params[key] -= self.eta * m_hat  # TODO replace with code to update the parameters
+            self.m[key] = self.beta1 * self.m[key] + (1 - self.beta1) * grads[key]
+            self.v[key] = self.beta2 * self.v[key] + (1 - self.beta2) * grads[key] ** 2
+            m_hat = self.m[key] / (1 - self.beta1 ** self.t)
+            v_hat = self.v[key] / (1 - self.beta2 ** self.t)
+            params[key] -= self.eta * m_hat / (np.sqrt(v_hat) + self.eps)
+            #self.m[key] = self.m[key]  # TODO replace with code to update the moving average of the gradient
+            #self.v[key] = self.v[key]  # TODO replace with code to update the moving average of the squared gradient
+            #m_hat = self.m[key]  # TODO replace with code to compute the bias-corrected first moment estimate
+            #v_hat = self.v[key]  # TODO replace with code to compute the bias-corrected second moment estimate
+            #params[key] -= self.eta * m_hat  # TODO replace with code to update the parameters
 
 def train(model, data, optimizer, num_epochs=100, call_back=None):
     """
@@ -177,7 +177,7 @@ if __name__ == '__main__':
     beta1 = 0.9 # TODO set the beta1 parameter
     beta2 = 0.999  # TODO set the beta2 parameter (usually larger than beta1)
     eps = 1e-8  # TODO set the epsilon parameter
-    num_epochs = 5 # TODO set the number of epochs
+    num_epochs = 10 # TODO set the number of epochs
 
     data = BatchGenerator(X_tr, Y_tr, batch_size=batch_size)
 
