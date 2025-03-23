@@ -171,8 +171,8 @@ if __name__ == '__main__':
     Y_tr = make_one_hot(Y_tr, 10)
     Y_te = make_one_hot(Y_te, 10)
     
-    batch_size = 128  ## TODO set the mini-batch size
-    hidden_sizes = [128,64, 64, 16]  # TODO set the hidden layer sizes
+    batch_size = 128 ## TODO set the mini-batch size
+    hidden_sizes = [128,64,64,16]  # TODO set the hidden layer sizes
     step_size = 0.001  # TODO set the step size
     beta1 = 0.9 # TODO set the beta1 parameter
     beta2 = 0.999  # TODO set the beta2 parameter (usually larger than beta1)
