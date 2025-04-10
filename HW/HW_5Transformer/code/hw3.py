@@ -4,7 +4,7 @@ import torch.optim as optim
 import torch.nn.functional as F
 import numpy as np
 import matplotlib.pyplot as plt
-# from tqdm.notebook import tqdm  # TODO use this one if running on jupyter notebook (colab)
+# from tqdm.notebook import tqdm  # TODO use this one if running on jupyter notebook (colab) this
 from tqdm import tqdm  # use this one if running on terminal
 from transformer import Transformer
 from helper import model_name, val_loss
