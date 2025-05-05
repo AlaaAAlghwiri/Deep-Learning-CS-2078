@@ -1,0 +1,32 @@
+---
+title: "homework_5_Transformers_Alaa_Alghwiri"
+format: pdf
+editor: visual
+---
+
+## Questions:
+
+1.  List the hyperparameters and the best validation losses for both models:
+
+| Hyperparameter                              | Value |
+|---------------------------------------------|-------|
+| Context size                                |       |
+| Embedding size                              |       |
+| Number of transformer layers                |       |
+| Number of heads                             |       |
+| width of MLP                                |       |
+| Batch size                                  |       |
+| N                                           |       |
+| Validation loss with positional encoding    |       |
+| Validation loss without positional encoding |       |
+
+2. Provide prompts and model outputs that make each model perform good and bad. Limit the mode generated response to 500 characters.
+
+
+
+3. Provide the plots of the average attention weights for both models with and without positional encoding. You can use the provided model to answer the following questions:
+
+3.a: What do trends do you notice in the attention weights? Do the lower level layers capture different properties than the upper level? Are there any intuitive connections you can see in the pattern of attention weights? Give specific example. 
+
+
+3.b: Plot the avaeraged attention weights of the model without the positional encoding. Is it any different than the model with positional encoding? Reference specifics in the figure.
