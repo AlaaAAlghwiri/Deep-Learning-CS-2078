@@ -28,8 +28,9 @@ def get_batch(D, context_size, batch_size):
         The target data for the model
     """
     n = len(D)
-    x = None # TODO fill in the code to get the input data
-    y = None # TODO fill in the code to get the target data
+    start_idx = torch.randint(0, n - context_size - 1, (batch_size,)) # new chunk
+    x = torch.stack([D[i:i+context_size] for i in start_idx], dim=1) # TODO fill in the code to get the input data
+    y = torch.stack([D[i+1:i+context_size+1] for i in start_idx], dim=1) # TODO fill in the code to get the target data
     # TODO make sure to test this function to make sure the sequences look correct. 
     # If you get the wrong shape of the data or order the data incorrectly the model won't learn what you want it to and will struggle.
     # a simple way to test this is to convert the integer sequences back to text and print them out.
@@ -100,13 +101,13 @@ def get_data():
     fname = "input.txt"
     with open(fname, 'r', encoding='utf-8') as f:
         text = f.read()
-    chars = [] # TODO create a list of characters. Probably best to sort them if you want to have a consistent mapping
+    chars = sorted(list(set(text))) # TODO create a list of characters. Probably best to sort them if you want to have a consistent mapping
     vocab_size = len(chars)  # number of unique characters
     print(f"vocab size: {vocab_size}")
 
     # create a mapping from characters to integers
-    stoi = {}  # TODO create a dictionary mapping characters to integers 
-    itos = {}  # TODO create a dictionary mapping integers to characters
+    stoi = {ch: i for i, ch in enumerate(chars)}  # TODO create a dictionary mapping characters to integers 
+    itos = {i: ch for i, ch in enumerate(chars)}  # TODO create a dictionary mapping integers to characters
     encode = lambda s: [stoi[c] for c in s] # encoder: take a string, output a list of integers
     decode = lambda l: ''.join([itos[i] for i in l]) # decoder: take a list of integers, output a string
 
@@ -199,18 +200,18 @@ if __name__ == "__main__":
         'N': 512.0,  # N should be longer than the longest sequence you will use. Probably don't need to change this. 
         'pos_enc': pos_enc  
     }
-    # train_main(dtrain, dval, vocab_size, params)  # TODO uncomment this line to train the model
+    train_main(dtrain, dval, vocab_size, params)  # TODO uncomment this line to train the model
     
     
     # prep the eval data to select best saved model
     even_eval = len(dval)//(cs+1)
     dval = dval[:even_eval*(cs+1)].reshape(-1, cs+1).T
     prompt = "bat cat"  # prompt to examine the attention weights. TODO provide plots with this prompt in your write up. However you should change this to see how attention changes with different prompts.
-    use_big_model = False  # set to True to use the big model that was provided. This will load the model from the file model_posenc_True.pth or model_posenc_False.pth
-    # plot_attention(prompt, dval, vocab_size, esize, cs, nl, nh, width, encode, max_epochs=0, use_big_model=use_big_model)  # TODO uncomment this line to plot the attention weights
+    use_big_model = True  # set to True to use the big model that was provided. This will load the model from the file model_posenc_True.pth or model_posenc_False.pth
+    plot_attention(prompt, dval, vocab_size, esize, cs, nl, nh, width, encode, max_epochs=0, use_big_model=use_big_model)  # TODO uncomment this line to plot the attention weights
     
     
-    model = None  # TODO specify which model you want to use for text generation
+    model = model.to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))  # TODO specify which model you want to use for text generation
     prompt = "your prompt here"  # TODO: place your prompt to start the text generation here
-    # text = generate_text(model, prompt, 500, cs, encode, decode)  # TODO uncomment this line to generate text
-    # print(text)
+    text = generate_text(model, prompt, 500, cs, encode, decode)  # TODO uncomment this line to generate text
+    print(text)

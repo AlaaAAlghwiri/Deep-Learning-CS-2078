@@ -26,6 +26,11 @@ class PositionalEncoding(nn.Module):
         self.embed_size = embed_size
         self.max_len = max_len
         pe = torch.zeros(max_len, embed_size)  # positional encoding
+        position = torch.arange(0, max_len, dtype=torch.float).unsqueeze(1)
+        div_term = torch.exp(- (2 * torch.arange(0, embed_size // 2, dtype=torch.float) / embed_size) * np.log(N))
+        pe[:, 0::2] = torch.sin(position * div_term)
+        pe[:, 1::2] = torch.cos(position * div_term)
+
         # TODO create the positional encoding by filling in the values for pe
         pe = pe.unsqueeze(1)  # reshape to (max_len, 1, embed_size) so that it applies to each sequence in the mini-batch
         self.register_buffer('pe', pe)  # register the positional encoding as buffer so it is saved in the model state_dict but not listed as parameters
@@ -45,7 +50,7 @@ class PositionalEncoding(nn.Module):
         return x + self.pe[:x.size(0)]
 
 class TransformerLayer(nn.Module):
-    def __init__(self, embed_size, nhead, layer_width=256, activation=F.relu):
+    def __init__(self, embed_size, nhead, layer_width=256, activation=nn.relu):
         """
         Initialize the Transformer object.
 
@@ -64,6 +69,15 @@ class TransformerLayer(nn.Module):
         self.embed_size = embed_size
         self.nhead = nhead
         # TODO create the multihead attention, layer normalization, feedforward network, and dropout layers
+        self.self_attn = nn.MultiheadAttention(embed_size, nhead, dropout=0.2)
+        self.norm1 = nn.LayerNorm(embed_size)
+        self.norm2 = nn.LayerNorm(embed_size)
+        self.ff = nn.Sequential(
+            nn.Linear(embed_size, layer_width),
+            activation,
+            nn.Linear(layer_width, embed_size)
+        )
+        self.dropout = nn.Dropout(0.2)
 
     def forward(self, x, attn_mask, need_attn_weights=False):
         """
@@ -83,24 +97,28 @@ class TransformerLayer(nn.Module):
 
         # TODO fill in the steps below
         # normalize input
-        xnorm = None
+        xnorm = self.norm1(x)
 
         # self attention using normalized input. 
         # Note that the query, key, and value inputs are all the same here when doing self-attention with nn.MultiheadAttention. These inputs are used to generate the query, key, and value vectors and are not the keys themselves.
         # Make sure to pass in the attention mask, set is_causal=True, set need_weights=need_attn_weights, and set average_attn_weights=False
-        att, att_weights = None, None
+        att, att_weights = self.self_attn(
+            xnorm, xnorm, xnorm, 
+            attn_mask=attn_mask, 
+            need_weights=need_attn_weights, 
+            is_causal=True, 
+            average_attn_weights=False
+        )
         
         # add attention to original input x
-        y = None
-        
+        y = x + att
+
+        y_norm = self.norm2(y)
+
+        ff = self.ff(y_norm)
+        ff_drop = self.dropout(ff)
         # layer norm and feedforward 
-        z = None
-        
-        # apply dropout to the output of the feedforward network
-        z = None
-        
-        # add feedforward output to z to y to get the final output
-        z = None
+        z = y + ff_drop
 
         return z, att_weights
 
@@ -136,8 +154,12 @@ class Transformer(nn.Module):
             self.position = PositionalEncoding(embed_size, max_len=max_len, N=N)
         else:
             self.position = nn.Identity()  # identity function does nothing
-        self.transformer_layers = nn.ModuleList([None])  # TODO replace with tranformer layers
+        self.transformer_layers =  nn.ModuleList([
+            TransformerLayer(embed_size, nhead, layer_width, activation) for _ in range(num_layers)
+        ])  # TODO replace with tranformer layers
         # TODO add layer norm and final linear layer
+        self.final_norm = nn.LayerNorm(embed_size)
+        self.fc = nn.Linear(embed_size, vocab_size)
 
     def forward(self, x, attn_mask, return_att_weights=False):
         """
@@ -165,7 +187,7 @@ class Transformer(nn.Module):
             if return_att_weights:
                 att_weights.append(att_w)
         
-        x = None  # TODO normalize the output of the last transformer layer and pass it through the final linear layer
+        x = self.final_norm(x)  # TODO normalize the output of the last transformer layer and pass it through the final linear layer
         if return_att_weights:
             return x, att_weights
         return x
