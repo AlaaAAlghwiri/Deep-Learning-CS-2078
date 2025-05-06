@@ -4,8 +4,8 @@
 # In[ ]:
 
 
-import os
-os.makedirs("weights", exist_ok=True)
+#import os
+#os.makedirs("weights", exist_ok=True)
 
 import torch
 import torch.nn as nn
@@ -207,7 +207,7 @@ if __name__ == "__main__":
     params = {
         'context_size': cs,
         'batch_size': 64,
-        'num_epochs': 50,  
+        'num_epochs': 1,  
         'embed_size': esize,
         'num_layers': nl,
         'nhead': nh,
@@ -221,7 +221,7 @@ if __name__ == "__main__":
 
     model, tlosses, vlosses = train_main(dtrain, dval, vocab_size, params)  # TODO specify which model you want to use for text generation
 
-    prompt = "hydrogen elephant "  # TODO: place your prompt to start the text generation here
+    prompt = "I am interested in"  # TODO: place your prompt to start the text generation here
     text = generate_text(model, prompt, 500, cs, encode, decode)  # TODO uncomment this line to generate text
     print(text)
 
@@ -229,8 +229,8 @@ if __name__ == "__main__":
     # prep the eval data to select best saved model
     even_eval = len(dval)//(cs+1)
     dval = dval[:even_eval*(cs+1)].reshape(-1, cs+1).T
-    prompt = "I will not"  # prompt to examine the attention weights. TODO provide plots with this prompt in your write up. However you should change this to see how attention changes with different prompts.
+    prompt = "She sells sea shells by the sea shore."  # prompt to examine the attention weights. TODO provide plots with this prompt in your write up. However you should change this to see how attention changes with different prompts.
     use_big_model = False  # set to True to use the big model that was provided. This will load the model from the file model_posenc_True.pth or model_posenc_False.pth
-    plot_attention(prompt, dval, vocab_size, esize, cs, nl, nh, width, encode, max_epochs=150, use_big_model=use_big_model)  # TODO uncomment this line to plot the attention weights
+    plot_attention(prompt, dval, vocab_size, esize, cs, nl, nh, width, encode, max_epochs=50, use_big_model=use_big_model)  # TODO uncomment this line to plot the attention weights
      
 

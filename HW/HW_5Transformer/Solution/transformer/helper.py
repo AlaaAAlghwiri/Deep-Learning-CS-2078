@@ -137,7 +137,7 @@ def find_best_model(dval, vocab_size, esize, cs, nl, nh, width, pos_enc, max_epo
     model = Transformer(vocab_size, embed_size=esize, num_layers=nl, nhead=nh, layer_width=width, 
                         max_len=1024+32, N=512.0, pos_enc=pos_enc)
     mask = torch.nn.Transformer.generate_square_subsequent_mask(cs)
-    for i in range(0, max_epochs+1, 10):
+    for i in range(0, max_epochs, 10):
         name = model_name(esize, cs, nl, nh, i, pos_enc)
         model.load_state_dict(torch.load(f"weights/{name}", weights_only=True, map_location='cpu'))
         loss = val_loss(dval, model, nn.CrossEntropyLoss(), vocab_size, mask)
